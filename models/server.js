@@ -1,4 +1,5 @@
 const express = require('express')
+const cors = require('cors');
 const { dbConection } = require('../database/config')
 
 //crear array
@@ -9,6 +10,7 @@ class Server{
         this.app = express()
         this.port= process.env.PORT
         this.insumosPath ='/insumos'//Ruta de la api
+        this.middlewares()
         this.routes()
         this.conectarDB()
        
@@ -26,6 +28,11 @@ listen(){
 routes(){
     this.app.use(this.insumosPath, require('../routes/insumos'))
    }
+
+   middlewares(){
+    this.app.use(cors()); //Indicar el uso del cors
+   }
+
    async conectarDB(){
      await dbConection()
 
